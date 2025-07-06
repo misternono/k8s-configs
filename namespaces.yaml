@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pdf-basic-tier
+  labels:
+    tier: basic
+    app: pdf-processor
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pdf-business-tier
+  labels:
+    tier: business
+    app: pdf-processor
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pdf-enterprise-tier
+  labels:
+    tier: enterprise
+    app: pdf-processor
