@@ -1,0 +1,43 @@
+# new-api-gateway.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: new-api-gateway
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: new-api-gateway
+  template:
+    metadata:
+      labels:
+        app: new-api-gateway
+    spec:
+      containers:
+      - name: new-api-gateway
+        image: new-api-gateway:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: "300m"
+            memory: "256Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: new-api-gateway-service
+  namespace: default
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 30600  # Different port from original
+  selector:
+    app: new-api-gateway

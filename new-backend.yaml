@@ -1,0 +1,43 @@
+# new-backend.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: new-backend
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: new-backend
+  template:
+    metadata:
+      labels:
+        app: new-backend
+    spec:
+      containers:
+      - name: new-backend
+        image: new-backend:latest  # This will be your current API gateway code
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: new-backend-service
+  namespace: default
+spec:
+  type: ClusterIP  # Internal only - no external access
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: new-backend
